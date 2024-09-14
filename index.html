@@ -7,6 +7,35 @@
 </head>
 <body>
     <h1>Mokepon </h1>
-    <p>This is an online game.</p>
+    <section id="select-mokepon">
+        <h2>Select your Mokepon:</h2>
+        
+        <label for="hipodoge">Hipodoge</label>
+        <input id="hipodoge" type="radio" name="mokepon" value="hipodoge">
+
+        <label for="ratigueya">Ratigueya</label>
+        <input id="ratiguyea" type="radio" name="mokepon" value="ratigueya">
+
+        <label for="capipepo">Capipepo</label>
+        <input id="capipepo" type="radio" name="mokepon" value="capipepo">
+    
+        <button id="select-mokepon-button">Select Mokepon</button>
+    </section>
+    <section id="select-attack">
+        <h2>Select your Attack:</h2>
+        <h3>Player</h3>
+        <p>Mokepon: <span id="player-mokepon">...</span> - Lives: <span id="player-lives">...</span></p> 
+        <h3>Enemy</h3>
+        <p>Mokepon: <span id="enemy-mokepon">...</span> - Lives: <span id="enemy-lives">...</span></p> 
+        <button id="fire-attack-button">Fire</button>
+        <button id="water-attack-button">Water</button>
+        <button id="earth-attack-button">Earth</button>
+    </section>
+    <section id="show-results">
+        <!-- Show outcomes-->
+    </section>
+    <section id="restart-game"> 
+        <button id="restart-game-button">Restart Game</button>
+    </section>
 </body>
 </html>
