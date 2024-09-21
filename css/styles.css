@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Playpen+Sans:wght@100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Playpen+Sans:wght@100..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Josefin Sans";
+    font-optical-sizing: auto;
+    font-style: normal;
+    background-color: #3A1078;
+    color: whitesmoke
+}
+
+#select-mokepon {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    font-size: 48px;
+    color: whitesmoke;
+    font-weight: 800;
+    margin: 16px 0 16px 0;
+}
+
+.subtitle {
+    font-size:32px;
+    color: whitesmoke;
+    font-weight: 600;
+}
+
+.cards {
+    display: flex;
+    gap: 25px;
+    
+}
+
+.cards input {
+    display: none;
+}
+
+.mokepon-card {
+    width: 200px;
+    height: 250px;
+    background-color: #4E31AA;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: whitesmoke;
+    font-weight: 400;
+    font-size: 20px;
+    border-radius: 20px;
+}
+
+
+.mokepon-card img {
+    width: 150px;
+}
+
+
+#select-mokepon-button {
+    width: 220px;
+    height: 44px;
+    color: whitesmoke;
+    background-color: transparent;
+    border-radius: 20px;
+    border: 2px solid whitesmoke;
+    font-size: 16px;
+    margin-top: 40px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
