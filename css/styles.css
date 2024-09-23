@@ -13,29 +13,31 @@ body {
 }
 
 #select-mokepon {
-    height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    margin-top: 28px;
 }
 
 .title {
-    font-size: 48px;
+    font-size: 40px;
     color: whitesmoke;
     font-weight: 800;
     margin: 16px 0 16px 0;
 }
 
 .subtitle {
-    font-size:32px;
+    font-size:28px;
     color: whitesmoke;
     font-weight: 600;
+    align-items: center;
 }
 
 .cards {
     display: flex;
     gap: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
     
 }
 
@@ -44,8 +46,8 @@ body {
 }
 
 .mokepon-card {
-    width: 150px;
-    height: 200px;
+    width: 125px;
+    height: 180px;
     background-color: #4E31AA;
     display: flex;
     flex-direction: column;
@@ -59,7 +61,7 @@ body {
 
 
 .mokepon-card img {
-    width: 120px;
+    width: 100px;
 }
 
 .mokepon-card:hover {
@@ -82,11 +84,12 @@ input[name="mokepon"]:checked + .mokepon-card
     margin-top: 40px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: 400;
+    margin-bottom: 28px;
 }
 
 #select-attack {
     /*height: 100vh;*/
-    margin-top: 48px;
+    margin-top: 28px;
     align-items: center;
     flex-direction: column; 
     justify-content: center; 
@@ -94,8 +97,8 @@ input[name="mokepon"]:checked + .mokepon-card
 
 .mokepon-attack {
     display: flex;
-    gap: 200px;
-    margin: 25px 0 0 0;
+    gap: 180px;
+    margin: 15px 0 0 0;
 }
 
 .mokepon-attack-card {
@@ -116,7 +119,7 @@ input[name="mokepon"]:checked + .mokepon-card
 }
 
 .mokepon-attack-card img{
-    width: 120px;
+    width: 100px;
 }
 
 
@@ -126,11 +129,13 @@ input[name="mokepon"]:checked + .mokepon-card
 
 .attack-buttons {
     display: flex;
-    gap: 25px;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .mokepon-attack + h2 {
-    font-size: 28px;
+    font-size: 24px;
 }
 
 .attack-buttons button{
@@ -150,7 +155,7 @@ input[name="mokepon"]:checked + .mokepon-card
 }
 
 .battle-result {
-    width: 300px;
+    width: 280px;
     height: 100px;
     display: flex;
     flex-direction: column;
@@ -192,4 +197,14 @@ input[name="mokepon"]:checked + .mokepon-card
     font-size: 20px;
     padding-bottom: 10px;
     border-bottom: 2px whitesmoke solid;
+}
+
+@media (max-width: 400px) {
+    .mokepon-attack {
+        gap: 20px;
+    }
+
+    h2 {
+        text-align: center;
+    }
 }
