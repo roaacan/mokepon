@@ -44,8 +44,8 @@ body {
 }
 
 .mokepon-card {
-    width: 200px;
-    height: 250px;
+    width: 150px;
+    height: 200px;
     background-color: #4E31AA;
     display: flex;
     flex-direction: column;
@@ -59,22 +59,137 @@ body {
 
 
 .mokepon-card img {
-    width: 150px;
+    width: 120px;
 }
 
+.mokepon-card:hover {
+    background-color: #6C48C5;
+}
+
+input[name="mokepon"]:checked + .mokepon-card
+{
+    border: 2px solid whitesmoke;
+}
 
 #select-mokepon-button {
-    width: 220px;
-    height: 44px;
+    width: 120px;
+    height: 40px;
     color: whitesmoke;
     background-color: transparent;
     border-radius: 20px;
     border: 2px solid whitesmoke;
     font-size: 16px;
     margin-top: 40px;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: 400;
-    font-style: normal;
+}
+
+#select-attack {
+    /*height: 100vh;*/
+    margin-top: 48px;
+    align-items: center;
+    flex-direction: column; 
+    justify-content: center; 
+}
+
+.mokepon-attack {
+    display: flex;
+    gap: 200px;
+    margin: 25px 0 0 0;
+}
+
+.mokepon-attack-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 20px;
 }
 
 
+.mokepon-attack-card .player {
+    margin: 0 0 10px 0;
+}
+
+.mokepon-attack-card .mokepon-lives {
+    margin: 0 0 5px 0;
+    font-size: 24px;
+}
+
+.mokepon-attack-card img{
+    width: 120px;
+}
+
+
+.mokepon-attack-card .mokepon-name {
+    margin: 5px 0 0 0;
+}
+
+.attack-buttons {
+    display: flex;
+    gap: 25px;
+}
+
+.mokepon-attack + h2 {
+    font-size: 28px;
+}
+
+.attack-buttons button{
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: transparent;
+    border: 2px solid whitesmoke;
+    color: whitesmoke;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.attack-buttons button:hover {
+    background-color: #6C48C5;
+}
+
+.battle-result {
+    width: 300px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: whitesmoke;
+    color: #3A1078;
+    font-size: 16px;
+    border-radius: 20px;
+    margin-top: 24px;
+    font-weight: 400;
+}
+
+#restart-game-button {
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    color: gray;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 400;
+}
+
+#restart-game-button:hover {
+    color: red;
+}
+
+
+.show-attacks {
+    margin-top: 20px;
+    display: grid;
+    width: 320px;
+    grid-template-columns: 120px 120px;
+    justify-content: center;
+    column-gap: 25px;
+    text-align: center;
+}
+
+.show-attacks p:first-child {
+    font-size: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px whitesmoke solid;
+}

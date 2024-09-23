@@ -36,13 +36,21 @@ function selectPlayerMokepon() {
     let ratigueya = document.getElementById("ratigueya")
     let hipodoge = document.getElementById("hipodoge")
     let spanPlayerMokepon = document.getElementById("player-mokepon")
+    let playerMokeponImg = document.getElementById("player-mokepon-img")
+
 
     if (capipepo.checked) {
         spanPlayerMokepon.innerHTML = "Capipepo"
+        playerMokeponImg.src = "./assets/mokepons_mokepon_capipepo_attack.png"
+        playerMokeponImg.alt = "Capipepo"
     } else if (ratigueya.checked) {
         spanPlayerMokepon.innerHTML = "Ratigueya"
+        playerMokeponImg.src = "./assets/mokepons_mokepon_ratigueya_attack.png"
+        playerMokeponImg.alt = "Ratigueya"
     } else if (hipodoge.checked) {
         spanPlayerMokepon.innerHTML = "Hipodoge"
+        playerMokeponImg.src = "./assets/mokepons_mokepon_hipodoge_attack.png"
+        playerMokeponImg.alt = "Hipodoge"
     }
 
     // Get Enemy Mokepon    
@@ -56,20 +64,27 @@ function selectEnemyMokepon() {
     let spanEnemyMokepon = document.getElementById("enemy-mokepon")
     let selectAttackSection = document.getElementById("select-attack")
     let showResultsSection = document.getElementById("show-results")
-    let selectMokepoSection = document.getElementById("select-mokepon")
+    let selectMokeponSection = document.getElementById("select-mokepon")
     let spanEnemyLives = document.getElementById("enemy-lives")
     let spanPlayerLives = document.getElementById("player-lives")
+    let enemyMokeponImg = document.getElementById("enemy-mokepon-img")
 
     if (randomMokepon == 1) {
         spanEnemyMokepon.innerHTML = "Capipepo"
+        enemyMokeponImg.src = "./assets/mokepons_mokepon_capipepo_attack.png"
+        enemyMokeponImg.alt = "Capipepo"
     } else if (randomMokepon == 2) {
         spanEnemyMokepon.innerHTML = "Ratigueya"
-    } else if (randomMokepon == 2) {
+        enemyMokeponImg.src = "./assets/mokepons_mokepon_ratigueya_attack.png"
+        enemyMokeponImg.alt = "Ratigueya"
+    } else if (randomMokepon == 3) {
         spanEnemyMokepon.innerHTML = "Hipodoge"
+        enemyMokeponImg.src = "./assets/mokepons_mokepon_hipodoge_attack.png"
+        enemyMokeponImg.alt = "Hipodoge"
     }
 
-    selectMokepoSection.style.display = "none"
-    selectAttackSection.style.display = "block"
+    selectMokeponSection.style.display = "none"
+    selectAttackSection.style.display = "flex"
     showResultsSection.style.display = "block"
 
     spanEnemyLives.innerHTML = enemyLives
@@ -116,41 +131,51 @@ function battle() {
     let spanPlayerLives = document.getElementById("player-lives")
 
     if (playerAttack == enemyAttack) {
-        showBattleOutcome("Draw")
+        showBattleOutcome("Draw", "orange", "orange")
     } else if (playerAttack == "FIRE" && enemyAttack == "WATER") {
         playerLives--
         spanPlayerLives.innerHTML = playerLives
-        showBattleOutcome("The enemy wins")
+        showBattleOutcome("The Enemy Wins", "red", "green")
     } else if (playerAttack == "WATER" && enemyAttack == "EARTH") {
         playerLives--
         spanPlayerLives.innerHTML = playerLives
-        showBattleOutcome("The enemy wins")
+        showBattleOutcome("The Enemy Wins", "red", "green")
     } else if (playerAttack == "EARTH"  && enemyAttack == "FIRE") {
         playerLives--
         spanPlayerLives.innerHTML = playerLives
-        showBattleOutcome("The enemy wins")
+        showBattleOutcome("The Enemy Wins", "red", "green")
     } else {
         enemyLives--
         spanEnemyLives.innerHTML = enemyLives
-        showBattleOutcome("The player wins")
+        showBattleOutcome("The Player Wins", "green", "red")
     }
 
     decideWinner()
 }
 
-function showBattleOutcome(result) {
+function showBattleOutcome(result, colorPlayer, ColorEnemy) {
     let showResultsSection = document.getElementById("show-results")
-    let paragraph = document.createElement("p")
+    let showPlayerAttacksSection = document.getElementById("show-player-attacks")
+    let showEnemyAttacksSection = document.getElementById("show-enemy-attacks")
+    
+    let paragraphEnemy = document.createElement("p")
+    paragraphEnemy.style.color = ColorEnemy
+    let paragraphPlayer = document.createElement("p")
+    paragraphPlayer.style.color = colorPlayer
 
-    paragraph.innerHTML = "The player attacked with " + playerAttack.toLowerCase() + ", the enemy with " + enemyAttack.toLowerCase() + ". " + result +"!"
-    showResultsSection.appendChild(paragraph)
+    showResultsSection.innerHTML = result
+    paragraphPlayer.innerHTML = playerAttack
+    paragraphEnemy.innerHTML = enemyAttack
+
+    showPlayerAttacksSection.appendChild(paragraphPlayer)
+    showEnemyAttacksSection.appendChild(paragraphEnemy)
 }
 
 function decideWinner() {
     if (playerLives <= 0) {
-        showFinalOutcome("The enemy won!")
+        showFinalOutcome("The Enemy Won!")
     } else if (enemyLives <= 0) {
-        showFinalOutcome("The player won!")
+        showFinalOutcome("The Player Won!")
     }
 
 }
@@ -161,13 +186,14 @@ function showFinalOutcome(result) {
     let earthAttackButton = document.getElementById("earth-attack-button")
     let restartGameSection = document.getElementById("restart-game")
     let showResultsSection = document.getElementById("show-results")
-    let paragraph = document.createElement("p")
-    
-    paragraph.innerHTML = result
-    showResultsSection.appendChild(paragraph)
+
+    showResultsSection.innerHTML = result
     fireAttackButton.disabled = true
+    fireAttackButton.style.backgroundColor = "#6C48C5"
     waterAttackButton.disabled = true
+    waterAttackButton.style.backgroundColor= "#6C48C5"
     earthAttackButton.disabled = true
+    earthAttackButton.style.backgroundColor = "#6C48C5"
     restartGameSection.style.display = "block"
 }
 
