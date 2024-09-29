@@ -1,44 +1,58 @@
-let playerAttack = ""
-let enemyAttack = ""
+// Buttons
+const selectMokeponButton = document.getElementById("select-mokepon-button")
+const fireAttackButton = document.getElementById("fire-attack-button")
+const waterAttackButton = document.getElementById("water-attack-button")
+const earthAttackButton = document.getElementById("earth-attack-button")
+const restartAttackButton = document.getElementById("restart-game-button")
+
+// Sections
+const selectAttackSection = document.getElementById("select-attack")
+const showResultsSection = document.getElementById("show-results")
+const restartGameSection = document.getElementById("restart-game")
+const selectMokeponSection = document.getElementById("select-mokepon")
+const showPlayerAttacksSection = document.getElementById("show-player-attacks")
+const showEnemyAttacksSection = document.getElementById("show-enemy-attacks")
+
+// Player mokepon
+const capipepo = document.getElementById("capipepo")
+const ratigueya = document.getElementById("ratigueya")
+const hipodoge = document.getElementById("hipodoge")
+const spanPlayerMokepon = document.getElementById("player-mokepon")
+const playerMokeponImg = document.getElementById("player-mokepon-img")
+const spanPlayerLives = document.getElementById("player-lives")
+
+// Enemy mokepon
+const spanEnemyMokepon = document.getElementById("enemy-mokepon")
+const spanEnemyLives = document.getElementById("enemy-lives")
+const enemyMokeponImg = document.getElementById("enemy-mokepon-img")
+
+
+// Game Variables Global
+let playerAttack
+let enemyAttack
 let playerLives = 5
 let enemyLives = 5
 
+
 function startGame() {
-    let selectMokeponButton = document.getElementById("select-mokepon-button")
+    // Select mokepon button event
     selectMokeponButton.addEventListener("click", selectPlayerMokepon) 
     
-    // Attack Buttons
-    let fireAttackButton = document.getElementById("fire-attack-button")
+    // Attack buttons event
     fireAttackButton.addEventListener("click", fireAttack)
-    let waterAttackButton = document.getElementById("water-attack-button")
     waterAttackButton.addEventListener("click", waterAttack)
-    let earthAttackButton = document.getElementById("earth-attack-button")
     earthAttackButton.addEventListener("click", earthAttack)
 
-    // Restart button
-    let restartAttackButton = document.getElementById("restart-game-button")
+    // Restart button event
     restartAttackButton.addEventListener("click", restartGame)
-
+    
     // Hide Sections
-    let selectAttackSection = document.getElementById("select-attack")
-    let showResultsSection = document.getElementById("show-results")
-    let restartGameSection = document.getElementById("restart-game")
-
     selectAttackSection.style.display = "none"
     showResultsSection.style.display = "none"
     restartGameSection.style.display = "none"
 }
 
-
 function selectPlayerMokepon() {
-    // Get mokepon selected by the player.
-    let capipepo = document.getElementById("capipepo")
-    let ratigueya = document.getElementById("ratigueya")
-    let hipodoge = document.getElementById("hipodoge")
-    let spanPlayerMokepon = document.getElementById("player-mokepon")
-    let playerMokeponImg = document.getElementById("player-mokepon-img")
-
-
     if (capipepo.checked) {
         spanPlayerMokepon.innerHTML = "Capipepo"
         playerMokeponImg.src = "./assets/mokepons_mokepon_capipepo_attack.png"
@@ -53,21 +67,14 @@ function selectPlayerMokepon() {
         playerMokeponImg.alt = "Hipodoge"
     }
 
-    // Get Enemy Mokepon    
+    // Select Enemy Mokepon    
     selectEnemyMokepon()
 }
 
 
 function selectEnemyMokepon() {
-    // Get a random mokepon for the enemy.
+    // Select a random mokepon for the enemy.
     let randomMokepon = randomNumber(1, 3)
-    let spanEnemyMokepon = document.getElementById("enemy-mokepon")
-    let selectAttackSection = document.getElementById("select-attack")
-    let showResultsSection = document.getElementById("show-results")
-    let selectMokeponSection = document.getElementById("select-mokepon")
-    let spanEnemyLives = document.getElementById("enemy-lives")
-    let spanPlayerLives = document.getElementById("player-lives")
-    let enemyMokeponImg = document.getElementById("enemy-mokepon-img")
 
     if (randomMokepon == 1) {
         spanEnemyMokepon.innerHTML = "Capipepo"
@@ -89,8 +96,6 @@ function selectEnemyMokepon() {
 
     spanEnemyLives.innerHTML = enemyLives
     spanPlayerLives.innerHTML = playerLives 
-
-    
 }
 
 
@@ -127,9 +132,6 @@ function selectEnemyAttack() {
 
 
 function battle() {
-    let spanEnemyLives = document.getElementById("enemy-lives")
-    let spanPlayerLives = document.getElementById("player-lives")
-
     if (playerAttack == enemyAttack) {
         showBattleOutcome("Draw", "orange", "orange")
     } else if (playerAttack == "FIRE" && enemyAttack == "WATER") {
@@ -153,10 +155,8 @@ function battle() {
     decideWinner()
 }
 
+
 function showBattleOutcome(result, colorPlayer, ColorEnemy) {
-    let showResultsSection = document.getElementById("show-results")
-    let showPlayerAttacksSection = document.getElementById("show-player-attacks")
-    let showEnemyAttacksSection = document.getElementById("show-enemy-attacks")
     
     let paragraphEnemy = document.createElement("p")
     paragraphEnemy.style.color = ColorEnemy
@@ -171,6 +171,7 @@ function showBattleOutcome(result, colorPlayer, ColorEnemy) {
     showEnemyAttacksSection.appendChild(paragraphEnemy)
 }
 
+
 function decideWinner() {
     if (playerLives <= 0) {
         showFinalOutcome("The Enemy Won!")
@@ -180,13 +181,8 @@ function decideWinner() {
 
 }
 
-function showFinalOutcome(result) {
-    let fireAttackButton = document.getElementById("fire-attack-button")
-    let waterAttackButton = document.getElementById("water-attack-button")
-    let earthAttackButton = document.getElementById("earth-attack-button")
-    let restartGameSection = document.getElementById("restart-game")
-    let showResultsSection = document.getElementById("show-results")
 
+function showFinalOutcome(result) {
     showResultsSection.innerHTML = result
     fireAttackButton.disabled = true
     fireAttackButton.style.backgroundColor = "#6C48C5"
