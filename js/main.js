@@ -32,6 +32,9 @@ let earthAttackButton = document.getElementById("earth-attack-button")
 let inputCapipepo
 let inputRatigueya
 let inputHipodoge
+let inputLangostelvis
+let inputPydos
+let inputTucapalma
 
 
 // Game Variables 
@@ -44,21 +47,27 @@ let enemyAttacks = []
 
 let enemyMokepon
 let playerMokepon
-
 let attackButtons
 
+let matches = 5
+
 class Mokepon {
-    constructor(name, img, live) {
+    constructor(name, img, live, element) {
         this.name = name
         this.img = img
         this.live = live
         this.attacks = []
+        this.element = element
     }
 }
 
-let hipodoge = new Mokepon("Hipodoge", "./assets/mokepons_mokepon_hipodoge_attack.png", 5)
-let capipepo = new Mokepon("Capipepo", "./assets/mokepons_mokepon_capipepo_attack.png", 5)
-let ratigueya = new Mokepon("Ratigueya", "./assets/mokepons_mokepon_ratigueya_attack.png", 5)
+let hipodoge = new Mokepon("Hipodoge", "./assets/mokepons_mokepon_hipodoge_attack.png", 5, "Water")
+let capipepo = new Mokepon("Capipepo", "./assets/mokepons_mokepon_capipepo_attack.png", 5, "Earth")
+let ratigueya = new Mokepon("Ratigueya", "./assets/mokepons_mokepon_ratigueya_attack.png", 5, "Fire")
+let tucapalma = new Mokepon("Tucapalma", "./assets/mokepons_mokepon_tucapalma_attack.png", 5, "Earth")
+let langostelvis = new Mokepon("Langostelvis", "./assets/mokepons_mokepon_langostelvis_attack.png", 5, "Fire")
+let pydos = new Mokepon("Pydos", "./assets/mokepons_mokepon_pydos_attack.png", 5, "Water")
+
 
 hipodoge.attacks.push(
     // Objetos literales
@@ -74,8 +83,8 @@ capipepo.attacks.push(
     {"name": "Fire", "id": "fire-attack-button"},
     {"name": "Water", "id": "water-attack-button"},
     {"name": "Earth", "id": "earth-attack-button"},   
-    {"name": "Fire", "id": "fire-attack-button"},
-    {"name": "Fire", "id": "fire-attack-button"}
+    {"name": "Earth", "id": "earth-attack-button"},
+    {"name": "Earth", "id": "earth-attack-button"}
 )
 
 ratigueya.attacks.push(
@@ -83,12 +92,37 @@ ratigueya.attacks.push(
     {"name": "Fire", "id": "fire-attack-button"},
     {"name": "Water", "id": "water-attack-button"},
     {"name": "Earth", "id": "earth-attack-button"},  
-    {"name": "Earth", "id": "earth-attack-button"},
-    {"name": "Earth", "id": "earth-attack-button"}
+    {"name": "Fire", "id": "fire-attack-button"},
+    {"name": "Fire", "id": "fire-attack-button"}
 )
 
+tucapalma.attacks.push(
+    {"name": "Fire", "id": "fire-attack-button"},
+    {"name": "Water", "id": "water-attack-button"},
+    {"name": "Earth", "id": "earth-attack-button"},  
+    {"name": "Earth", "id": "earth-attack-button"},
+    {"name": "Earth", "id": "earth-attack-button"} 
+)
+
+langostelvis.attacks.push(
+    {"name": "Fire", "id": "fire-attack-button"},
+    {"name": "Water", "id": "water-attack-button"},
+    {"name": "Earth", "id": "earth-attack-button"},  
+    {"name": "Fire", "id": "fire-attack-button"},
+    {"name": "Fire", "id": "fire-attack-button"} 
+)
+
+pydos.attacks.push(
+    {"name": "Fire", "id": "fire-attack-button"},
+    {"name": "Water", "id": "water-attack-button"},
+    {"name": "Earth", "id": "earth-attack-button"},  
+    {"name": "Water", "id": "water-attack-button"},
+    {"name": "Water", "id": "water-attack-button"} 
+)
+
+
 // Add mokepon to the list
-mokepons.push(hipodoge, capipepo, ratigueya)
+mokepons.push(hipodoge, capipepo, ratigueya, tucapalma, langostelvis, pydos)
 
 
 
@@ -110,6 +144,9 @@ function startGame() {
     inputCapipepo = document.getElementById("capipepo")
     inputRatigueya = document.getElementById("ratigueya")
     inputHipodoge = document.getElementById("hipodoge")
+    inputLangostelvis = document.getElementById("langostelvis")
+    inputPydos = document.getElementById("pydos")
+    inputTucapalma = document.getElementById("tucapalma")
 
     // Hide Sections
     selectAttackSection.style.display = "none"
@@ -132,6 +169,12 @@ function selectPlayerMokepon() {
         playerMokepon = ratigueya
     } else if (inputHipodoge.checked) {
         playerMokepon = hipodoge
+    } else if (inputLangostelvis.checked) {
+        playerMokepon = langostelvis
+    } else if (inputPydos.checked) {
+        playerMokepon = pydos
+    } else if (inputTucapalma) {
+        playerMokepon = tucapalma
     }
    
     spanPlayerMokepon.innerHTML = playerMokepon.name
@@ -159,7 +202,24 @@ function selectEnemyMokepon() {
     spanPlayerLives.innerHTML = playerVictories
 
     // Add attack Buttons
+
+    whoIsTheStrongerElement()    
     addAttackButtons()
+}
+
+
+function whoIsTheStrongerElement() {
+    if (playerMokepon.element == enemyMokepon.element) {
+        console.log("Same element")
+    } else if (playerMokepon.element == "Fire" && enemyMokepon.element == "Water") {
+        enemyMokepon.attacks.push({"name": enemyMokepon.element, "id": `${enemyMokepon.element.toLowerCase()}-attack-button`})
+    } else if (playerMokepon.element == "Water" && enemyMokepon.element == "Earth") {
+        enemyMokepon.attacks.push({"name": enemyMokepon.element, "id": `${enemyMokepon.element.toLowerCase()}-attack-button`})
+    } else if (playerMokepon.element == "Earth"  && enemyMokepon.element == "Fire") {
+        enemyMokepon.attacks.push({"name": enemyMokepon.element, "id": `${enemyMokepon.element.toLowerCase()}-attack-button`})
+    } else {
+        playerMokepon.attacks.push({"name": playerMokepon.element, "id": `${playerMokepon.element.toLowerCase()}-attack-button`})
+    }
 }
 
 function addAttackButtons() {
@@ -223,7 +283,7 @@ function selectEnemyAttack() {
 
 
 function areAllAttacksSelected() {
-    if (playerAttacks.length == attackButtons.length) {
+    if (playerAttacks.length == matches) {
         battle()
     }
 }
