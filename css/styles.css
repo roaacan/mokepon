@@ -129,6 +129,7 @@ input[name="mokepon"]:checked + .mokepon-card
 
 .attack-buttons {
     display: flex;
+    width: 400px;
     gap: 20px;
     flex-wrap: wrap;
     justify-content: center;
@@ -199,7 +200,7 @@ input[name="mokepon"]:checked + .mokepon-card
     border-bottom: 2px whitesmoke solid;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
     .mokepon-attack {
         gap: 20px;
     }
@@ -207,4 +208,9 @@ input[name="mokepon"]:checked + .mokepon-card
     h2 {
         text-align: center;
     }
+
+    .attack-buttons {
+        width: auto;
+    }
+
 }

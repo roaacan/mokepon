@@ -1,8 +1,5 @@
 // Buttons
 const selectMokeponButton = document.getElementById("select-mokepon-button")
-const fireAttackButton = document.getElementById("fire-attack-button")
-const waterAttackButton = document.getElementById("water-attack-button")
-const earthAttackButton = document.getElementById("earth-attack-button")
 const restartAttackButton = document.getElementById("restart-game-button")
 
 // Sections
@@ -12,184 +9,285 @@ const restartGameSection = document.getElementById("restart-game")
 const selectMokeponSection = document.getElementById("select-mokepon")
 const showPlayerAttacksSection = document.getElementById("show-player-attacks")
 const showEnemyAttacksSection = document.getElementById("show-enemy-attacks")
+const cardContainer = document.getElementById("card-container")
 
 // Player mokepon
-const capipepo = document.getElementById("capipepo")
-const ratigueya = document.getElementById("ratigueya")
-const hipodoge = document.getElementById("hipodoge")
 const spanPlayerMokepon = document.getElementById("player-mokepon")
 const playerMokeponImg = document.getElementById("player-mokepon-img")
 const spanPlayerLives = document.getElementById("player-lives")
+const attackButtonsSection = document.getElementById("attack-buttons") 
 
 // Enemy mokepon
 const spanEnemyMokepon = document.getElementById("enemy-mokepon")
 const spanEnemyLives = document.getElementById("enemy-lives")
 const enemyMokeponImg = document.getElementById("enemy-mokepon-img")
 
+// Attack buttons
+let fireAttackButton = document.getElementById("fire-attack-button")
+let waterAttackButton = document.getElementById("water-attack-button")
+let earthAttackButton = document.getElementById("earth-attack-button")
 
-// Game Variables Global
-let playerAttack
-let enemyAttack
-let playerLives = 5
-let enemyLives = 5
+
+// Inputs
+let inputCapipepo
+let inputRatigueya
+let inputHipodoge
+
+
+// Game Variables 
+let mokepons = []
+let playerVictories = 0
+let enemyVictories = 0
+let playerAttacks = []
+let enemyAttacksAvailable = []
+let enemyAttacks = []
+
+let enemyMokepon
+let playerMokepon
+
+let attackButtons
+
+class Mokepon {
+    constructor(name, img, live) {
+        this.name = name
+        this.img = img
+        this.live = live
+        this.attacks = []
+    }
+}
+
+let hipodoge = new Mokepon("Hipodoge", "./assets/mokepons_mokepon_hipodoge_attack.png", 5)
+let capipepo = new Mokepon("Capipepo", "./assets/mokepons_mokepon_capipepo_attack.png", 5)
+let ratigueya = new Mokepon("Ratigueya", "./assets/mokepons_mokepon_ratigueya_attack.png", 5)
+
+hipodoge.attacks.push(
+    // Objetos literales
+    {"name": "Fire", "id": "fire-attack-button"},
+    {"name": "Water", "id": "water-attack-button"},
+    {"name": "Earth", "id": "earth-attack-button"},  
+    {"name": "Water", "id": "water-attack-button"},
+    {"name": "Water", "id": "water-attack-button"} 
+)
+
+capipepo.attacks.push(
+    // Objetos literales
+    {"name": "Fire", "id": "fire-attack-button"},
+    {"name": "Water", "id": "water-attack-button"},
+    {"name": "Earth", "id": "earth-attack-button"},   
+    {"name": "Fire", "id": "fire-attack-button"},
+    {"name": "Fire", "id": "fire-attack-button"}
+)
+
+ratigueya.attacks.push(
+    // Objetos literales
+    {"name": "Fire", "id": "fire-attack-button"},
+    {"name": "Water", "id": "water-attack-button"},
+    {"name": "Earth", "id": "earth-attack-button"},  
+    {"name": "Earth", "id": "earth-attack-button"},
+    {"name": "Earth", "id": "earth-attack-button"}
+)
+
+// Add mokepon to the list
+mokepons.push(hipodoge, capipepo, ratigueya)
+
 
 
 function startGame() {
-    // Select mokepon button event
-    selectMokeponButton.addEventListener("click", selectPlayerMokepon) 
     
-    // Attack buttons event
-    fireAttackButton.addEventListener("click", fireAttack)
-    waterAttackButton.addEventListener("click", waterAttack)
-    earthAttackButton.addEventListener("click", earthAttack)
+    // Add mokepon cards into select section
+    mokepons.forEach((mokepon) => {
+        // Templates literarios
+        let mokeponCard = `
+        <input id="${mokepon.name.toLowerCase()}" type="radio" name="mokepon" value="${mokepon.name.toLowerCase()}">
+        <label class="mokepon-card" for="${mokepon.name.toLowerCase()}">
+            <img src="${mokepon.img}" alt="${mokepon.name}">
+            <p>${mokepon.name}</p>
+        </label>
+        `
+        cardContainer.innerHTML += mokeponCard
+    })
 
-    // Restart button event
-    restartAttackButton.addEventListener("click", restartGame)
-    
+    inputCapipepo = document.getElementById("capipepo")
+    inputRatigueya = document.getElementById("ratigueya")
+    inputHipodoge = document.getElementById("hipodoge")
+
     // Hide Sections
     selectAttackSection.style.display = "none"
     showResultsSection.style.display = "none"
     restartGameSection.style.display = "none"
+
+
+    // Select mokepon button event
+    selectMokeponButton.addEventListener("click", selectPlayerMokepon) 
+
+    // Restart button event
+    restartAttackButton.addEventListener("click", restartGame)
+    
 }
 
 function selectPlayerMokepon() {
-    if (capipepo.checked) {
-        spanPlayerMokepon.innerHTML = "Capipepo"
-        playerMokeponImg.src = "./assets/mokepons_mokepon_capipepo_attack.png"
-        playerMokeponImg.alt = "Capipepo"
-    } else if (ratigueya.checked) {
-        spanPlayerMokepon.innerHTML = "Ratigueya"
-        playerMokeponImg.src = "./assets/mokepons_mokepon_ratigueya_attack.png"
-        playerMokeponImg.alt = "Ratigueya"
-    } else if (hipodoge.checked) {
-        spanPlayerMokepon.innerHTML = "Hipodoge"
-        playerMokeponImg.src = "./assets/mokepons_mokepon_hipodoge_attack.png"
-        playerMokeponImg.alt = "Hipodoge"
+    if (inputCapipepo.checked) {
+        playerMokepon = capipepo
+    } else if (inputRatigueya.checked) {
+        playerMokepon = ratigueya
+    } else if (inputHipodoge.checked) {
+        playerMokepon = hipodoge
     }
+   
+    spanPlayerMokepon.innerHTML = playerMokepon.name
+    playerMokeponImg.src = playerMokepon.img
+    playerMokeponImg.alt = playerMokepon.name
 
-    // Select Enemy Mokepon    
     selectEnemyMokepon()
 }
 
 
 function selectEnemyMokepon() {
     // Select a random mokepon for the enemy.
-    let randomMokepon = randomNumber(1, 3)
+    let n = randomNumber(0, mokepons.length - 1)
+    enemyMokepon = mokepons[n]
 
-    if (randomMokepon == 1) {
-        spanEnemyMokepon.innerHTML = "Capipepo"
-        enemyMokeponImg.src = "./assets/mokepons_mokepon_capipepo_attack.png"
-        enemyMokeponImg.alt = "Capipepo"
-    } else if (randomMokepon == 2) {
-        spanEnemyMokepon.innerHTML = "Ratigueya"
-        enemyMokeponImg.src = "./assets/mokepons_mokepon_ratigueya_attack.png"
-        enemyMokeponImg.alt = "Ratigueya"
-    } else if (randomMokepon == 3) {
-        spanEnemyMokepon.innerHTML = "Hipodoge"
-        enemyMokeponImg.src = "./assets/mokepons_mokepon_hipodoge_attack.png"
-        enemyMokeponImg.alt = "Hipodoge"
-    }
+    spanEnemyMokepon.innerHTML = enemyMokepon.name
+    enemyMokeponImg.src = enemyMokepon.img
+    enemyMokeponImg.alt = enemyMokepon.name
 
     selectMokeponSection.style.display = "none"
     selectAttackSection.style.display = "flex"
     showResultsSection.style.display = "block"
 
-    spanEnemyLives.innerHTML = enemyLives
-    spanPlayerLives.innerHTML = playerLives 
+    spanEnemyLives.innerHTML = enemyVictories
+    spanPlayerLives.innerHTML = playerVictories
+
+    // Add attack Buttons
+    addAttackButtons()
+}
+
+function addAttackButtons() {
+    playerMokepon.attacks.forEach((attack) => {
+        let attackButton = `<button id="${attack.id}" class="attack-button">${attack.name}</button>`
+        attackButtonsSection.innerHTML += attackButton      
+    })
+
+    // Get elements with attack-button class
+    attackButtons = document.querySelectorAll(".attack-button")
+    sequenceAttackPlayer()
 }
 
 
-function fireAttack() {
-    playerAttack = "FIRE"
-    selectEnemyAttack()
+function sequenceAttackPlayer(){
+    attackButtons.forEach((button) => {
+        button.addEventListener("click", (e) => {
+            if (e.target.textContent == "Fire") {
+                playerAttacks.push(e.target.textContent)
+                button.style.background = "#6C48C5"
+                button.disabled = true
+                selectEnemyAttack()
+            } else if (e.target.textContent == "Water") {
+                playerAttacks.push(e.target.textContent)
+                button.style.background = "#6C48C5"
+                button.disabled = true
+                selectEnemyAttack()
+            } else if (e.target.textContent == "Earth") {
+                playerAttacks.push(e.target.textContent)
+                button.style.background = "#6C48C5"
+                button.disabled = true
+                selectEnemyAttack()
+            }
+        })
+    })
+
+    // Attacks available
+    getEnemyAttacksAvailable()
 }
 
 
-function waterAttack() {
-    playerAttack = "WATER"
-    selectEnemyAttack()
-}
-
-
-function earthAttack() {
-    playerAttack = "EARTH"
-    selectEnemyAttack()
+function getEnemyAttacksAvailable() {
+    // Attacks available
+    enemyAttacksAvailable = []
+    enemyMokepon.attacks.forEach((attack) => {
+        enemyAttacksAvailable.push(attack.name)
+    })   
 }
 
 function selectEnemyAttack() {
-    let randomEnemyAttack = randomNumber(1, 3)
+    let randomAttack = randomNumber(1, enemyAttacksAvailable.length)
+    let attack = enemyAttacksAvailable[randomAttack - 1]
+    enemyAttacks.push(attack)
+    
+    // Delete attack available
+    enemyAttacksAvailable.splice(randomAttack - 1, 1)
 
-    if (randomEnemyAttack == 1) {
-        enemyAttack = "FIRE"
-    } else if (randomEnemyAttack == 2) {
-        enemyAttack = "WATER"
-    } else if (randomEnemyAttack == 3) {
-        enemyAttack = "EARTH"
-    }
-
-    battle()
+    // start battle?
+    areAllAttacksSelected()
 }
 
+
+function areAllAttacksSelected() {
+    if (playerAttacks.length == attackButtons.length) {
+        battle()
+    }
+}
 
 function battle() {
-    if (playerAttack == enemyAttack) {
-        showBattleOutcome("Draw", "orange", "orange")
-    } else if (playerAttack == "FIRE" && enemyAttack == "WATER") {
-        playerLives--
-        spanPlayerLives.innerHTML = playerLives
-        showBattleOutcome("The Enemy Wins", "red", "green")
-    } else if (playerAttack == "WATER" && enemyAttack == "EARTH") {
-        playerLives--
-        spanPlayerLives.innerHTML = playerLives
-        showBattleOutcome("The Enemy Wins", "red", "green")
-    } else if (playerAttack == "EARTH"  && enemyAttack == "FIRE") {
-        playerLives--
-        spanPlayerLives.innerHTML = playerLives
-        showBattleOutcome("The Enemy Wins", "red", "green")
-    } else {
-        enemyLives--
-        spanEnemyLives.innerHTML = enemyLives
-        showBattleOutcome("The Player Wins", "green", "red")
+    for (let index = 0; index < playerAttacks.length; index++)
+    {   
+        if (playerAttacks[index] == enemyAttacks[index]) {
+            showBattleOutcome(index, "orange", "orange")
+        } else if (playerAttacks[index] == "Fire" && enemyAttacks[index] == "Water") {
+            enemyVictories++
+            showBattleOutcome(index, "red", "green")
+        } else if (playerAttacks[index] == "Water" && enemyAttacks[index] == "Earth") {
+            enemyVictories++
+            showBattleOutcome(index, "red", "green")
+        } else if (playerAttacks[index] == "Earth"  && enemyAttacks[index] == "Fire") {
+            enemyVictories++
+            showBattleOutcome(index, "red", "green")
+        } else {
+            playerVictories++
+            showBattleOutcome(index, "green", "red")
+        }
     }
-
-    decideWinner()
-}
-
-
-function showBattleOutcome(result, colorPlayer, ColorEnemy) {
     
-    let paragraphEnemy = document.createElement("p")
-    paragraphEnemy.style.color = ColorEnemy
-    let paragraphPlayer = document.createElement("p")
-    paragraphPlayer.style.color = colorPlayer
-
-    showResultsSection.innerHTML = result
-    paragraphPlayer.innerHTML = playerAttack
-    paragraphEnemy.innerHTML = enemyAttack
-
-    showPlayerAttacksSection.appendChild(paragraphPlayer)
-    showEnemyAttacksSection.appendChild(paragraphEnemy)
+    // Winner
+    updateVictories()
+    whoIsTheWinner()
 }
 
 
-function decideWinner() {
-    if (playerLives <= 0) {
-        showFinalOutcome("The Enemy Won!")
-    } else if (enemyLives <= 0) {
-        showFinalOutcome("The Player Won!")
-    }
+function updateVictories() {
+    // Update Victories
+    spanEnemyLives.innerHTML = enemyVictories
+    spanPlayerLives.innerHTML = playerVictories
+}
 
+function showBattleOutcome(index, playerColor, enemyColor) {
+    let enemyAttack = document.createElement("p")
+    let playerAttack = document.createElement("p")
+    
+    enemyAttack.innerHTML = enemyAttacks[index]
+    playerAttack.innerHTML = playerAttacks[index]
+
+    enemyAttack.style.color = enemyColor
+    playerAttack.style.color = playerColor
+
+    showPlayerAttacksSection.appendChild(playerAttack)
+    showEnemyAttacksSection.appendChild(enemyAttack)
+}
+
+
+function whoIsTheWinner() {
+    if (playerVictories > enemyVictories) {
+        showFinalOutcome("Player Won")
+    } else if (enemyVictories > playerVictories) {
+        showFinalOutcome("Enemy Won")
+    } else {
+        showFinalOutcome ("Draw")
+    }
 }
 
 
 function showFinalOutcome(result) {
     showResultsSection.innerHTML = result
-    fireAttackButton.disabled = true
-    fireAttackButton.style.backgroundColor = "#6C48C5"
-    waterAttackButton.disabled = true
-    waterAttackButton.style.backgroundColor= "#6C48C5"
-    earthAttackButton.disabled = true
-    earthAttackButton.style.backgroundColor = "#6C48C5"
     restartGameSection.style.display = "block"
 }
 
@@ -200,6 +298,15 @@ function restartGame() {
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
+
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]]; // Intercambio
+    }
+    return array;
+  }
 
 
 window.addEventListener("load", startGame)
