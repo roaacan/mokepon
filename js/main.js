@@ -249,12 +249,6 @@ function selectPlayerMokepon() {
         playerMokepon = ratigueya
     } else if (inputHipodoge.checked) {
         playerMokepon = hipodoge
-    } else if (inputLangostelvis.checked) {
-        playerMokepon = langostelvis
-    } else if (inputPydos.checked) {
-        playerMokepon = pydos
-    } else if (inputTucapalma) {
-        playerMokepon = tucapalma
     }
    
     spanPlayerMokepon.innerHTML = playerMokepon.name

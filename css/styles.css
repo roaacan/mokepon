@@ -113,7 +113,14 @@ input[name="mokepon"]:checked + .mokepon-card
 }
 
 .mobile-buttons button {
+
     user-select: none; /* Evita la selección de texto */
+    -webkit-user-select: none; /* Para navegadores WebKit (Safari, Chrome) */
+    -ms-user-select: none; /* Para navegadores antiguos de Microsoft */
+    -moz-user-select: none; /* Para navegadores Mozilla Firefox */
+    -webkit-tap-highlight-color: transparent; /* Elimina el resalte al hacer touch */
+    touch-action: manipulation; /* Evita el zoom accidental en dispositivos táctiles */
+
     width: 80px;
     height: 40px;
     background-color: transparent;
