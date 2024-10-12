@@ -74,6 +74,7 @@ input[name="mokepon"]:checked + .mokepon-card
 }
 
 #select-mokepon-button {
+    user-select: none; /* Evita la selección de texto */
     width: 120px;
     height: 40px;
     color: whitesmoke;
@@ -112,6 +113,7 @@ input[name="mokepon"]:checked + .mokepon-card
 }
 
 .mobile-buttons button {
+    user-select: none; /* Evita la selección de texto */
     width: 80px;
     height: 40px;
     background-color: transparent;
@@ -119,10 +121,6 @@ input[name="mokepon"]:checked + .mokepon-card
     border: 2px solid whitesmoke;
     color: whitesmoke;
     font-size: 16px;
-}
-
-.mobile-buttons button:che {
-    background-color: #6C48C5;
 }
 
 .up {
@@ -199,6 +197,7 @@ input[name="mokepon"]:checked + .mokepon-card
 }
 
 .attack-buttons button{
+    user-select: none; /* Evita la selección de texto */
     width: 100px;
     height: 40px;
     border-radius: 20px;
