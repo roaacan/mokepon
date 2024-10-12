@@ -15,6 +15,21 @@
         </div>
         <button id="select-mokepon-button">Play</button>
     </section>
+    <!-- Adding a map -->
+    <section id="show-game-map">
+        <h1 class="title">Mokepon</h1>
+        <h2 class="subtitle">Travel the Map with your Mokepon</h2>
+        <canvas id="game-map"></canvas>
+        <div class="key-instructions">
+            <p>Use the up (↑), down (↓), left (←), and right (→) arrow keys to move around the map</p>
+        </div>
+        <div class="mobile-buttons">
+            <button class="up" onmousedown="moveUp()"  onmouseup="stopMove()">Up</button>
+            <button class="left" onmousedown="moveLeft()" onmouseup="stopMove()">Left</button>
+            <button class="right" onmousedown="moveRight()"  onmouseup="stopMove()">Right</button>
+            <button class="down" onmousedown="moveDown()"  onmouseup="stopMove()">Down</button>
+        </div>
+    </section>
     <section id="select-attack">
         <h1 class="title">Mokepon</h1>
         <div class="mokepon-attack">

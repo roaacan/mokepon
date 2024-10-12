@@ -11,6 +11,9 @@ const showPlayerAttacksSection = document.getElementById("show-player-attacks")
 const showEnemyAttacksSection = document.getElementById("show-enemy-attacks")
 const cardContainer = document.getElementById("card-container")
 
+const showMapSection = document.getElementById("show-game-map")
+const map = document.getElementById("game-map")
+
 // Player mokepon
 const spanPlayerMokepon = document.getElementById("player-mokepon")
 const playerMokeponImg = document.getElementById("player-mokepon-img")
@@ -39,6 +42,7 @@ let inputTucapalma
 
 // Game Variables 
 let mokepons = []
+let enemyMokepons = []
 let playerVictories = 0
 let enemyVictories = 0
 let playerAttacks = []
@@ -51,23 +55,59 @@ let attackButtons
 
 let matches = 5
 
+// Game map
+let canva = map.getContext("2d") // Draw canva in 2d 
+let intervalo
+let mapBackground = new Image()
+mapBackground.src = "./assets/mokemap.png"
+
+let mapWidth = window.innerWidth - 20
+const maxWidthMap  = 350
+
+if (mapWidth > maxWidthMap) {
+    mapWidth = maxWidthMap
+}
+
+let mapHeight = mapWidth * 600 / 800
+map.width = mapWidth
+map.height = mapHeight
+
+
 class Mokepon {
-    constructor(name, img, live, element) {
+    constructor(name, img, live, element, imgMap, x = 10, y = 10) {
         this.name = name
         this.img = img
         this.live = live
         this.attacks = []
         this.element = element
+        this.x = x
+        this.y = y
+        this.width = 40
+        this.height = 40
+        this.mokeponMapImage = new Image()
+        this.mokeponMapImage.src = imgMap
+        this.speedX = 0
+        this.speedY = 0
+    }
+
+    paintMokepon() {
+        canva.drawImage(
+            this.mokeponMapImage, 
+            this.x, 
+            this.y, 
+            this.width, 
+            this.height
+        )
     }
 }
 
-let hipodoge = new Mokepon("Hipodoge", "./assets/mokepons_mokepon_hipodoge_attack.png", 5, "Water")
-let capipepo = new Mokepon("Capipepo", "./assets/mokepons_mokepon_capipepo_attack.png", 5, "Earth")
-let ratigueya = new Mokepon("Ratigueya", "./assets/mokepons_mokepon_ratigueya_attack.png", 5, "Fire")
+// Mokepons for the player
+let hipodoge = new Mokepon("Hipodoge", "./assets/mokepons_mokepon_hipodoge_attack.png", 5, "Water", "./assets/hipodoge.png")
+let capipepo = new Mokepon("Capipepo", "./assets/mokepons_mokepon_capipepo_attack.png", 5, "Earth", "./assets/capipepo.png")
+let ratigueya = new Mokepon("Ratigueya", "./assets/mokepons_mokepon_ratigueya_attack.png", 5, "Fire", "./assets/ratigueya.png")
 let tucapalma = new Mokepon("Tucapalma", "./assets/mokepons_mokepon_tucapalma_attack.png", 5, "Earth")
-let langostelvis = new Mokepon("Langostelvis", "./assets/mokepons_mokepon_langostelvis_attack.png", 5, "Fire")
-let pydos = new Mokepon("Pydos", "./assets/mokepons_mokepon_pydos_attack.png", 5, "Water")
-
+let langostelvis = new Mokepon("Langostelvis", "./assets/mokepons_mokepon_langostelvis_attack.png", 5, "Fire",)
+let pydos = new Mokepon("Pydos", "./assets/mokepons_mokepon_pydos_attack.png", 5, "Water", "./assets/pydos.png")
 
 hipodoge.attacks.push(
     // Objetos literales
@@ -121,12 +161,57 @@ pydos.attacks.push(
 )
 
 
-// Add mokepon to the list
-mokepons.push(hipodoge, capipepo, ratigueya, tucapalma, langostelvis, pydos)
 
+
+// Mokepons for the enemy 
+let hipodogeEnemy = new Mokepon("Hipodoge", "./assets/mokepons_mokepon_hipodoge_attack.png", 5, "Water", "./assets/hipodoge.png", 150, 150)
+let capipepoEnemy = new Mokepon("Capipepo", "./assets/mokepons_mokepon_capipepo_attack.png", 5, "Earth", "./assets/capipepo.png", 150, 150)
+let ratigueyaEnemy = new Mokepon("Ratigueya", "./assets/mokepons_mokepon_ratigueya_attack.png", 5, "Fire", "./assets/ratigueya.png", 150, 150)
+
+
+hipodogeEnemy.attacks.push(
+    // Objetos literales
+    {"name": "Fire", "id": "fire-attack-button"},
+    {"name": "Water", "id": "water-attack-button"},
+    {"name": "Earth", "id": "earth-attack-button"},  
+    {"name": "Water", "id": "water-attack-button"},
+    {"name": "Water", "id": "water-attack-button"} 
+)
+
+capipepoEnemy.attacks.push(
+    // Objetos literales
+    {"name": "Fire", "id": "fire-attack-button"},
+    {"name": "Water", "id": "water-attack-button"},
+    {"name": "Earth", "id": "earth-attack-button"},   
+    {"name": "Earth", "id": "earth-attack-button"},
+    {"name": "Earth", "id": "earth-attack-button"}
+)
+
+ratigueyaEnemy.attacks.push(
+    // Objetos literales
+    {"name": "Fire", "id": "fire-attack-button"},
+    {"name": "Water", "id": "water-attack-button"},
+    {"name": "Earth", "id": "earth-attack-button"},  
+    {"name": "Fire", "id": "fire-attack-button"},
+    {"name": "Fire", "id": "fire-attack-button"}
+)
+
+
+
+
+
+// Add mokepon to the list
+mokepons.push(hipodoge, capipepo, ratigueya)
+enemyMokepons.push(capipepoEnemy, ratigueyaEnemy, capipepoEnemy)
 
 
 function startGame() {
+    // Hide Sections
+    selectAttackSection.style.display = "none"
+    showMapSection.style.display = "none"
+    showResultsSection.style.display = "none"
+    restartGameSection.style.display = "none"
+    
     
     // Add mokepon cards into select section
     mokepons.forEach((mokepon) => {
@@ -148,12 +233,6 @@ function startGame() {
     inputPydos = document.getElementById("pydos")
     inputTucapalma = document.getElementById("tucapalma")
 
-    // Hide Sections
-    selectAttackSection.style.display = "none"
-    showResultsSection.style.display = "none"
-    restartGameSection.style.display = "none"
-
-
     // Select mokepon button event
     selectMokeponButton.addEventListener("click", selectPlayerMokepon) 
 
@@ -163,6 +242,7 @@ function startGame() {
 }
 
 function selectPlayerMokepon() {
+    
     if (inputCapipepo.checked) {
         playerMokepon = capipepo
     } else if (inputRatigueya.checked) {
@@ -182,29 +262,30 @@ function selectPlayerMokepon() {
     playerMokeponImg.alt = playerMokepon.name
 
     selectEnemyMokepon()
+    selectMokeponSection.style.display = "none"
+
+    // Show map and draw
+    showMapSection.style.display = "flex"
+    startMap()
+    //canva.fillRect(50, 50, 100, 100)
+
 }
 
 
 function selectEnemyMokepon() {
     // Select a random mokepon for the enemy.
     let n = randomNumber(0, mokepons.length - 1)
-    enemyMokepon = mokepons[n]
+    enemyMokepon = enemyMokepons[n]
 
     spanEnemyMokepon.innerHTML = enemyMokepon.name
     enemyMokeponImg.src = enemyMokepon.img
     enemyMokeponImg.alt = enemyMokepon.name
 
-    selectMokeponSection.style.display = "none"
-    selectAttackSection.style.display = "flex"
-    showResultsSection.style.display = "block"
-
     spanEnemyLives.innerHTML = enemyVictories
     spanPlayerLives.innerHTML = playerVictories
 
     // Add attack Buttons
-
     whoIsTheStrongerElement()    
-    addAttackButtons()
 }
 
 
@@ -220,6 +301,8 @@ function whoIsTheStrongerElement() {
     } else {
         playerMokepon.attacks.push({"name": playerMokepon.element, "id": `${playerMokepon.element.toLowerCase()}-attack-button`})
     }
+
+    addAttackButtons()
 }
 
 function addAttackButtons() {
@@ -367,6 +450,103 @@ function shuffle(array) {
     }
     return array;
   }
+
+
+// Drawing on the map
+function paintCanvas() {
+    playerMokepon.x = playerMokepon.x + playerMokepon.speedX
+    playerMokepon.y = playerMokepon.y + playerMokepon.speedY
+    canva.clearRect(0, 0, map.width, map.height)
+    canva.drawImage(mapBackground, 0, 0, map.width,map.height)
+    playerMokepon.paintMokepon()
+    enemyMokepon.paintMokepon()
+
+    // Check collision only if the user stop
+    if (playerMokepon.speedY !== 0 || playerMokepon.speedX !== 0){
+        checkCollision(enemyMokepon)
+    }
+
+}
+
+
+function moveUp() {
+    playerMokepon.speedY = -5
+}
+
+function moveDown() {
+    playerMokepon.speedY = 5
+}
+
+function moveLeft() {
+    playerMokepon.speedX = -5
+}
+ 
+function moveRight() {
+    playerMokepon.speedX = 5
+}
+
+function stopMove() {
+    playerMokepon.speedX = 0
+    playerMokepon.speedY = 0
+}
+
+function keyPressed(e) {
+    switch (e.key) {
+        case "ArrowUp":
+            moveUp()
+            break
+        case "ArrowDown": 
+            moveDown()
+            break
+        case "ArrowLeft":
+            moveLeft()
+            break
+        case "ArrowRight":
+            moveRight()
+            break
+        default:
+            break
+    }
+
+}
+
+
+function startMap() {
+    // Draw Map
+    intervalo = setInterval(paintCanvas, 50)
+    
+    //Move with keywords
+    window.addEventListener("keydown", keyPressed)
+    window.addEventListener("keyup", stopMove)
+}
+
+
+function checkCollision(enemyMokepon) {
+    let playerLeft = playerMokepon.x
+    let playerRight = playerMokepon.x + playerMokepon.width
+    let playerUp = playerMokepon.y
+    let playerDown = playerMokepon.y + playerMokepon.height
+    let enemyLeft = enemyMokepon.x
+    let enemyRight = enemyMokepon.x + enemyMokepon.width
+    let enemyUp = enemyMokepon.y
+    let enemyDown = enemyMokepon.y + enemyMokepon.height
+
+    if (
+        playerUp > enemyDown ||
+        playerRight < enemyLeft ||
+        playerDown < enemyUp ||
+        playerLeft > enemyRight
+    ) {
+        return
+    }
+
+    stopMove()
+
+    clearInterval(intervalo)
+    showMapSection.style.display = "none"
+    selectAttackSection.style.display = "flex"
+    showResultsSection.style.display = "block"
+}
 
 
 window.addEventListener("load", startGame)

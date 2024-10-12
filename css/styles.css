@@ -87,6 +87,65 @@ input[name="mokepon"]:checked + .mokepon-card
     margin-bottom: 28px;
 }
 
+#show-game-map {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 32px;
+}
+
+.key-instructions {
+    width: 480px;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    text-align: center;
+    align-content: center;
+}
+
+.mobile-buttons {
+    margin-top: 24px;
+    display: none;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+.mobile-buttons button {
+    width: 60px;
+    height: 40px;
+    background-color: transparent;
+    border-radius: 20px;
+    border: 2px solid whitesmoke;
+    color: whitesmoke;
+    font-size: 16px;
+}
+
+.mobile-buttons button:che {
+    background-color: #6C48C5;
+}
+
+.up {
+    grid-column: 2 / 3;
+    grid-row: 1  / 2;
+}
+
+.left {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+.right {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3
+}
+
+.down {
+    align-self: center;
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+}
+
 #select-attack {
     /*height: 100vh;*/
     margin-top: 28px;
@@ -200,7 +259,7 @@ input[name="mokepon"]:checked + .mokepon-card
     border-bottom: 2px whitesmoke solid;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
     .mokepon-attack {
         gap: 20px;
     }
@@ -211,6 +270,14 @@ input[name="mokepon"]:checked + .mokepon-card
 
     .attack-buttons {
         width: auto;
+    }
+
+    .key-instructions {
+        display: none;
+    }
+
+    .mobile-buttons {
+        display: grid;
     }
 
 }
