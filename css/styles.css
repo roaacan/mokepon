@@ -112,7 +112,7 @@ input[name="mokepon"]:checked + .mokepon-card
 }
 
 .mobile-buttons button {
-    width: 60px;
+    width: 80px;
     height: 40px;
     background-color: transparent;
     border-radius: 20px;
